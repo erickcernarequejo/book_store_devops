@@ -12,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AuthorDTO implements Serializable {
 
+    private Long id;
     private String name;
 
 }

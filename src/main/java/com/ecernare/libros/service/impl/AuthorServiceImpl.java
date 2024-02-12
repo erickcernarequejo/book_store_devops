@@ -28,8 +28,8 @@ public class AuthorServiceImpl implements IAuthorService {
     }
 
     @Override
-    public List<Author> getAuthors() {
-        return authorRepository.findAll();
+    public List<AuthorDTO> getAuthors() {
+        return authorMapper.authorToAuthorDTO(authorRepository.findAll());
     }
 
     @Override

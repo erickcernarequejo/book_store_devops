@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,9 +18,14 @@ public class AuthorController {
 
     private final IAuthorService authorService;
 
+    @GetMapping()
+    public ResponseEntity<List<AuthorDTO>> getAuthors() {
+        List<AuthorDTO> authors = authorService.getAuthors();
+        return new ResponseEntity<>(authors, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable("id") Long id) {
-
         Optional<AuthorDTO> author = authorService.getAuthorById(id);
 
         if (author.isEmpty()) {
@@ -31,7 +37,6 @@ public class AuthorController {
 
     @PostMapping
     public ResponseEntity<AuthorDTO> createUser(@RequestBody AuthorDTO authorDTO) {
-
         return new ResponseEntity<>(authorService.insert(authorDTO), HttpStatus.CREATED);
     }
 

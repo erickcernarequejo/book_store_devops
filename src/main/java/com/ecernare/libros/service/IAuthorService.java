@@ -10,7 +10,7 @@ public interface IAuthorService {
 
     Optional<AuthorDTO> getAuthorById(long id);
 
-    List<Author> getAuthors();
+    List<AuthorDTO> getAuthors();
 
     AuthorDTO insert(AuthorDTO authorDTO);
 
