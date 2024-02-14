@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11  # Establece la versión de Java a utilizar
+      java: corretto17  # Establece la versión de Java a utilizar
     commands:
       - echo "Installing dependencies..."
       - yum install -y maven
