@@ -6,7 +6,7 @@ phases:
       java: corretto17  # Establece la versión de Java a utilizar
     commands:
       - echo "Installing dependencies..."
-      - apt-get install -y maven
+      - yum install -y maven
   pre_build:
     commands:
       - echo "Compiling the project..."
