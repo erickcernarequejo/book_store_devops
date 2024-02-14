@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17  # Establece la versión de Java a utilizar
+    commands:
+      - echo "Installing dependencies..."
+      - apt-get install -y maven
+  pre_build:
+    commands:
+      - echo "Compiling the project..."
+      - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
+  build:
+    commands:
+      - echo "Running tests..."
+      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V  # Instala las dependencias de Maven, omitiendo la ejecución de pruebas y generación de documentación Javadoc
+  post_build:
+    commands:
+      - echo "Building Spring Boot application..."
+      - mvn package  # Empaqueta la aplicación Spring Boot usando Maven
+      - echo Build completed on `date`
+
+artifacts:
+  files:
+    - target/*.jar  # Especifica los archivos JAR como artefactos de salida
+  discard-paths: yes  # Descarta las rutas de los archivos al especificar los artefactos
