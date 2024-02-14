@@ -3,14 +3,13 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17  # Establece la versión de Java a utilizar
+      java: corretto11  # Establece la versión de Java a utilizar
     commands:
       - echo "Installing dependencies..."
       - yum install -y maven
   pre_build:
     commands:
       - echo "Compiling the project..."
-      - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
   build:
     commands:
       - echo "Running tests..."
