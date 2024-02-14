@@ -10,6 +10,7 @@ phases:
   pre_build:
     commands:
       - echo "Compiling the project..."
+      - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
   build:
     commands:
       - echo "Running tests..."
