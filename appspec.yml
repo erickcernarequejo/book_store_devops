@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/libros
+hooks:
+  BeforeInstall:
+    - location: scripts/stop_server.sh
+      runas: root
+  AfterInstall:
+    - location: scripts/install_dependencies.sh
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      runas: root
