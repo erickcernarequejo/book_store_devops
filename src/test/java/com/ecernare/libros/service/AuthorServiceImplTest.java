@@ -36,8 +36,8 @@ public class AuthorServiceImplTest {
 
     @Test
     public void testGetAuthorById() {
-        Author author = new Author(1L, "Alicia Tom", List.of());
-        AuthorDTO authorDTO = new AuthorDTO(1L, "Alicia Tom");
+        Author author = new Author(1L, "Alicia Tom", "Anthology", 38, List.of());
+        AuthorDTO authorDTO = new AuthorDTO(1L, "Alicia Tom","Anthology", 38);
         when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
         when(authorMapper.authorToAuthorDTO(author)).thenReturn(authorDTO);
 
@@ -52,8 +52,8 @@ public class AuthorServiceImplTest {
 
     @Test
     public void testInsertAuthor() {
-        Author author = new Author(1L, "Alicia Tom", List.of());
-        AuthorDTO authorDTO = new AuthorDTO(1L, "Alicia Tom");
+        Author author = new Author(1L, "Alicia Tom", "Anthology", 38, List.of());
+        AuthorDTO authorDTO = new AuthorDTO(1L, "Alicia Tom","Anthology", 38);
         when(authorMapper.authorDTOToAuthor(authorDTO)).thenReturn(author);
         when(authorRepository.save(author)).thenReturn(author);
         when(authorMapper.authorToAuthorDTO(author)).thenReturn(authorDTO);

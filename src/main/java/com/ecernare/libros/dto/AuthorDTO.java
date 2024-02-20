@@ -13,6 +13,11 @@ import java.io.Serializable;
 public class AuthorDTO implements Serializable {
 
     private Long id;
+
     private String name;
+
+    private String genre;
+
+    private int age;
 
 }

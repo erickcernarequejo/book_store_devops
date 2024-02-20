@@ -36,8 +36,17 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorDTO> createUser(@RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
         return new ResponseEntity<>(authorService.insert(authorDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<AuthorDTO> updateAuthor(@PathVariable("id") Long id, @RequestBody AuthorDTO authorDTO) {
+        Optional<AuthorDTO> authorOptional = authorService.update(id, authorDTO);
+        if (authorOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author with id " + id + " not found.");
+        }
+        return new ResponseEntity<>(authorOptional.get(), HttpStatus.OK);
     }
 
 }

@@ -28,6 +28,10 @@ public class Author implements Serializable {
 
     private String name;
 
+    private String genre;
+
+    private int age;
+
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author", orphanRemoval = true)
     private List<Book> books = new ArrayList<>();
@@ -53,33 +57,10 @@ public class Author implements Serializable {
         }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
     @Override
     public String toString() {
-        return "Author{" + "id=" + id + ", name=" + name + '}';
+        return "Author{" + "id=" + id + ", name=" + name
+                + ", genre=" + genre + ", age=" + age + '}';
     }
 
 }

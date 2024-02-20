@@ -19,7 +19,7 @@ public class AuthorServiceImpl implements IAuthorService {
     private final IAuthorMapper authorMapper;
 
     @Override
-    public Optional<AuthorDTO> getAuthorById(long id) {
+    public Optional<AuthorDTO> getAuthorById(Long id) {
         Optional<Author> authorOptional = authorRepository.findById(id);
         if (authorOptional.isPresent()) {
             return Optional.ofNullable(authorMapper.authorToAuthorDTO(authorOptional.get()));
@@ -39,16 +39,17 @@ public class AuthorServiceImpl implements IAuthorService {
     }
 
     @Override
-    public Author update(Author author) {
-        Optional<Author> authorOptional = authorRepository.findById(author.getId());
-        if (authorOptional.isPresent()) {
-            authorOptional.map(authorUpdate -> {
-                authorUpdate.setName(author.getName());
-                authorUpdate.setBooks(author.getBooks());
-                return authorUpdate;
-            });
+    public Optional<AuthorDTO> update(Long id, AuthorDTO authorDTO) {
+        Optional<Author> authorOptional = authorRepository.findById(id);
+
+        if (authorOptional.isEmpty()) {
+            return Optional.empty();
         }
-        return authorRepository.save(author);
+
+        authorMapper.updateAuthorFromAuthorDTO(authorDTO, authorOptional.get());
+        Author author = authorRepository.save(authorOptional.get());
+
+        return Optional.ofNullable(authorMapper.authorToAuthorDTO(author));
     }
 
     @Override

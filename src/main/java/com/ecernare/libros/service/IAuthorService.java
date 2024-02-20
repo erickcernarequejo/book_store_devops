@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface IAuthorService {
 
-    Optional<AuthorDTO> getAuthorById(long id);
+    Optional<AuthorDTO> getAuthorById(Long id);
 
     List<AuthorDTO> getAuthors();
 
     AuthorDTO insert(AuthorDTO authorDTO);
 
-    Author update(Author author);
+    Optional<AuthorDTO> update(Long id, AuthorDTO authorDTO);
 
     void delete(long id);
 
