@@ -54,6 +54,8 @@ public class AuthorServiceImpl implements IAuthorService {
 
     @Override
     public void delete(long id) {
+        Optional<Author> authorOptional = authorRepository.findById(id);
 
+        authorRepository.deleteById(authorOptional.get().getId());
     }
 }

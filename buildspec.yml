@@ -27,3 +27,7 @@ artifacts:
     - scripts/*.sh
     - appspec.yml
   discard-paths: yes  # Descarta las rutas de los archivos al especificar los artefactos
+
+cache:
+  paths:
+    - 'root/.m2/**/*'
