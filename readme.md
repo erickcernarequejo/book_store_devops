@@ -1,4 +1,4 @@
-# Aplicación Libros con Spring Boot CI/CD con AWS
+# Aplicación Libros con Spring Boot CI/CD con AWS 
 
 Aplicación CRUD libros diseñada y desarrollada con Java 17, Maven y una base de datos H2, la aplicación ofrece opciones básicas de listado, registro, eliminación y filtrado por identificador de autores.
 Todo el proceso de desarrollo, integración y despliegue de la aplicación se llevó a cabo con prácticas de Integración Continua y Despliegue Continuo (CI/CD) utilizando servicios de AWS. Desde el control de versiones con AWS CodeCommit, la construcción automatizada con AWS CodeBuild, hasta la implementación sin interrupciones con AWS CodeDeploy y la automatización del flujo de trabajo con AWS CodePipeline, la aplicación se desarrolla y despliega de manera eficiente y confiable en instancias EC2, garantizando una experiencia sin problemas para los usuarios.
