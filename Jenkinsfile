@@ -19,5 +19,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker Build and Push') {
+            steps {
+                sh 'printenv'
+                sh 'docker build -t erickcernarequejo/libros-app:""$GIT_COMMIT"" .'
+                sh 'docker push erickcernarequejo/libros-app:""$GIT_COMMIT""'
+            }
+        }
     }
 }
