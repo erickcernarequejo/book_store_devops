@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub')
+    }
+
     stages {
         stage('Build Artifact - Maven') {
             steps {
@@ -17,6 +22,12 @@ pipeline {
                     junit 'target/surefire-reports/*.xml'
                     jacoco execPattern: 'target/jacoco.exec'
                 }
+            }
+        }
+
+        stage('Login Docker') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
