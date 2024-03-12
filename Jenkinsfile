@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub')
-    }
+//     environment {
+//         DOCKERHUB_CREDENTIALS = credentials('docker-hub')
+//     }
 
     stages {
         stage('Build Artifact - Maven') {
@@ -25,17 +25,11 @@ pipeline {
             }
         }
 
-        stage('PRINT ENV') {
-            steps {
-                sh 'printenv'
-            }
-        }
-
-        stage('Login Docker') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
+//         stage('Login Docker') {
+//             steps {
+//                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+//             }
+//         }
 
         stage('Docker Build and Push') {
             steps {
