@@ -37,7 +37,7 @@ pipeline {
                     sh 'printenv'
                     sh 'docker build -t erickcernarequejo/libros-app:""$GIT_COMMIT"" .'
                     sh 'docker push erickcernarequejo/libros-app:""$GIT_COMMIT""'
-                    sh 'docker run -d --name libros-app-container -p 8090 erickcernarequejo/libros-app:""$GIT_COMMIT""'
+                    sh 'docker run -d --name libros-app-container -p 8090:8080 erickcernarequejo/libros-app:""$GIT_COMMIT""'
                 }
             }
         }
