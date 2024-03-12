@@ -40,7 +40,15 @@ pipeline {
                     sh 'printenv'
                     sh 'docker build -t $DOCKERHUB_CREDENTIALS_USR/$IMAGE:""$GIT_COMMIT"" .'
                     sh 'docker push $DOCKERHUB_CREDENTIALS_USR/$IMAGE:""$GIT_COMMIT""'
-                    sh 'docker run -d --name libros-app-container -p 8090:8080 $DOCKERHUB_CREDENTIALS_USR/$IMAGE:""$GIT_COMMIT""'
+                }
+            }
+        }
+
+        stage('Kubernetes Deployment - DEV') {
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig']) {
+                    sh "sed -i 's#replace#$DOCKERHUB_CREDENTIALS_USR/$IMAGE:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
+                    sh "kubectl apply -f k8s_deployment_service"
                 }
             }
         }
