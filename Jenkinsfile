@@ -1,9 +1,12 @@
 pipeline {
     agent any
 
-//     environment {
-//         DOCKERHUB_CREDENTIALS = credentials('docker-hub')
-//     }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub')
+        IMAGE='libros-app'
+        REGISTRY='erickcernarequejo'
+        VERSION='v1'
+    }
 
     stages {
         stage('Build Artifact - Maven') {
@@ -35,9 +38,9 @@ pipeline {
             steps {
                 withDockerRegistry([credentialsId: "docker-hub", url:""]) {
                     sh 'printenv'
-                    sh 'docker build -t erickcernarequejo/libros-app:""$GIT_COMMIT"" .'
-                    sh 'docker push erickcernarequejo/libros-app:""$GIT_COMMIT""'
-                    sh 'docker run -d --name libros-app-container -p 8090:8080 erickcernarequejo/libros-app:""$GIT_COMMIT""'
+                    sh 'docker build -t $DOCKERHUB_CREDENTIALS_USR/$IMAGE:""$GIT_COMMIT"" .'
+                    sh 'docker push $DOCKERHUB_CREDENTIALS_USR/$IMAGE:""$GIT_COMMIT""'
+                    sh 'docker run -d --name libros-app-container -p 8090:8080 $DOCKERHUB_CREDENTIALS_USR/$IMAGE:""$GIT_COMMIT""'
                 }
             }
         }
