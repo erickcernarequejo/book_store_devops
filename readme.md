@@ -34,11 +34,6 @@ A continuación se detalla los pasos realizados desde el almacenamiento en el re
    3. En la opción Permissions policies verificar la política AWSCodeDeployRole.
    4. En la opción nombre del rol ingresar "CodeDeployRole", verificar que los cambios sean correctos y crear rol.
 
-3. Para que el agente de CloudWatch registre métricas en CloudWatch y para que se comunique con Amazon EC2 y AWS Systems Manager
-
-   1. En la opción roles de la consola AWS seleccionar "Create role".
-   2.
-
 ### [EC2 ](https://docs.aws.amazon.com/es_es/ec2/)
 
 1. Ingresar a la consola EC2, seleccionar "Launch an instance" y asignar a la instancia el nombre  "**BookStoreDevops**"
@@ -172,7 +167,7 @@ A continuación se detalla los pasos realizados desde el almacenamiento en el re
             "files":{
                "collect_list":[
                   {
-                     "file_path":"/home/ec2-user/book_store_devops/target/logs/application.log",
+                     "file_path":"/opt/libros/logs/application.log",
                      "log_group_name":"ec2-devops-logs",
                      "log_stream_name":"{instance_id}",
                      "timezone":"UTC"

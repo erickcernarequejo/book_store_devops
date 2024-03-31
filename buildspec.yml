@@ -14,11 +14,9 @@ phases:
   build:
     commands:
       - echo "Running tests..."
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V  # Instala las dependencias de Maven, omitiendo la ejecución de pruebas y generación de documentación Javadoc
+      - mvn install
   post_build:
     commands:
-      - echo "Building Spring Boot application..."
-      - mvn package  # Empaqueta la aplicación Spring Boot usando Maven
       - echo Build completed on `date`
 
 artifacts:
