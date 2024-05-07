@@ -9,7 +9,7 @@ import org.mapstruct.*;
 import java.util.List;
 
 @Named("IAuthorMapper")
-@Mapper(componentModel = "spring", collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
+@Mapper(componentModel = "spring", collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED, builder = @Builder(disableBuilder = true))
 public interface IAuthorMapper {
 
     @Mapping(source = "books", target = "booksDTO")
