@@ -40,11 +40,11 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.insert(authorDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<AuthorDTO> updateAuthor(@PathVariable("id") Long id, @RequestBody AuthorDTO authorDTO) {
-        Optional<AuthorDTO> authorOptional = authorService.update(id, authorDTO);
+    @PutMapping
+    public ResponseEntity<AuthorDTO> updateAuthor(@RequestBody AuthorDTO authorDTO) {
+        Optional<AuthorDTO> authorOptional = authorService.update(authorDTO);
         if (authorOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author with id " + id + " not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author with id " + authorDTO.getId() + " not found.");
         }
         return new ResponseEntity<>(authorOptional.get(), HttpStatus.OK);
     }

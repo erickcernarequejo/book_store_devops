@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd MMM yyyy HH:mm:ss,SSS Z} [%t] %-5p %c{1}:%L - [%X{appName}-%X{traceId}-%X{spanId}-%X{spanExportable}] - userName=%X{req.userName} requestedSessionId=%X{req.requestedSessionId} remoteHost=%X{req.remoteHost} requestMethod=%X{req.requestMethod} requestURI=%X{req.requestURI} userAgent=%X{req.userAgent} - %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>

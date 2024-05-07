@@ -1,7 +1,9 @@
 package com.ecernare.libros.service;
 
 import com.ecernare.libros.domain.Author;
+import com.ecernare.libros.domain.Book;
 import com.ecernare.libros.dto.AuthorDTO;
+import com.ecernare.libros.dto.BookDTO;
 import com.ecernare.libros.mapper.IAuthorMapper;
 import com.ecernare.libros.repository.IAuthorRepository;
 import com.ecernare.libros.service.impl.AuthorServiceImpl;
@@ -11,11 +13,11 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -36,34 +38,51 @@ public class AuthorServiceImplTest {
 
     @Test
     public void testGetAuthorById() {
-        Author author = new Author(1L, "Alicia Tom", "Anthology", 38, List.of());
-        AuthorDTO authorDTO = new AuthorDTO(1L, "Alicia Tom","Anthology", 38);
+        // GIVEN
+        Long id = 1L;
+        Author author = new Author();
+        AuthorDTO authorDTO = new AuthorDTO();
+
         when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
         when(authorMapper.authorToAuthorDTO(author)).thenReturn(authorDTO);
 
+        // WHEN
         Optional<AuthorDTO> optionalAuthorDTO = authorService.getAuthorById(1L);
 
-        verify(authorRepository, times(1)).findById(1L);
-        assertNotNull(optionalAuthorDTO);
-        assertEquals(author.getId(), optionalAuthorDTO.get().getId());
-        assertEquals(author.getName(), optionalAuthorDTO.get().getName());
+        // THEN
+        assertTrue(authorDTO == optionalAuthorDTO.get());
+
+        verify(authorRepository).findById(id);
+        verify(authorMapper).authorToAuthorDTO(author);
 
     }
 
     @Test
     public void testInsertAuthor() {
-        Author author = new Author(1L, "Alicia Tom", "Anthology", 38, List.of());
-        AuthorDTO authorDTO = new AuthorDTO(1L, "Alicia Tom","Anthology", 38);
+        // GIVEN
+        Long id = 1L;
+        Author author = new Author();
+        author.setId(id);
+        AuthorDTO authorDTO = new AuthorDTO();
+
+        Author attachedAuthor = new Author();
+        AuthorDTO attachedAuthorDTO = new AuthorDTO();
+
         when(authorMapper.authorDTOToAuthor(authorDTO)).thenReturn(author);
-        when(authorRepository.save(author)).thenReturn(author);
-        when(authorMapper.authorToAuthorDTO(author)).thenReturn(authorDTO);
+        when(authorRepository.existsById(id)).thenReturn(false);
+        when(authorRepository.save(author)).thenReturn(attachedAuthor);
+        when(authorMapper.authorToAuthorDTO(attachedAuthor)).thenReturn(attachedAuthorDTO);
 
-        AuthorDTO authorAttachedDTO = authorService.insert(authorDTO);
+        // WHEN
+        AuthorDTO authorRet = authorService.insert(authorDTO);
 
-        verify(authorRepository, times(1)).save(author);
-        assertNotNull(authorAttachedDTO);
-        assertEquals(author.getId(), authorAttachedDTO.getId());
-        assertEquals(author.getName(), authorAttachedDTO.getName());
+        // THEN
+        assertTrue(attachedAuthorDTO == authorRet);
+
+        verify(authorMapper).authorDTOToAuthor(authorDTO);
+        verify(authorRepository).existsById(id);
+        verify(authorRepository).save(author);
+        verify(authorMapper).authorToAuthorDTO(attachedAuthor);
 
     }
 

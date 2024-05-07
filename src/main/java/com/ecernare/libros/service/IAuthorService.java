@@ -14,7 +14,7 @@ public interface IAuthorService {
 
     AuthorDTO insert(AuthorDTO authorDTO);
 
-    Optional<AuthorDTO> update(Long id, AuthorDTO authorDTO);
+    Optional<AuthorDTO> update(AuthorDTO authorDTO);
 
     void delete(long id);
 
