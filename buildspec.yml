@@ -1,11 +1,5 @@
 version: 0.2
 
-env:
-  parameter-store:
-    DB_NAME: "/DB/NAME"
-    DB_USERNAME: "/DB/USERNAME"
-    DB_PASSWORD: "/DB/PASSWORD"
-
 phases:
   install:
     runtime-versions:
