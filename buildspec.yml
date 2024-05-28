@@ -1,5 +1,11 @@
 version: 0.2
 
+env:
+  parameter-store:
+    DB_NAME: "/DB/NAME"
+    DB_USERNAME: "/DB/USERNAME"
+    DB_PASSWORD: "/DB/PASSWORD"
+
 phases:
   install:
     runtime-versions:
@@ -11,6 +17,9 @@ phases:
     commands:
       - echo "Compiling the project..."
       - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
+      - echo DB_NAME=${DB_NAME} >> .env
+      - echo DB_USERNAME=${DB_USERNAME} >> .env
+      - echo DB_PASSWORD=${DB_PASSWORD} >> .env
   build:
     commands:
       - echo "Running tests..."
