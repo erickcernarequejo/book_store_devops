@@ -17,9 +17,9 @@ phases:
     commands:
       - echo "Compiling the project..."
       - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
-      - echo DB_NAME=${DB_NAME} >> .env
-      - echo DB_USERNAME=${DB_USERNAME} >> .env
-      - echo DB_PASSWORD=${DB_PASSWORD} >> .env
+      - echo ${DB_NAME}
+      - echo ${DB_USERNAME}
+      - echo ${DB_PASSWORD}
   build:
     commands:
       - echo "Running tests..."
