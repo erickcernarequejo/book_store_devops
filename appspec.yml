@@ -20,11 +20,3 @@ hooks:
   ApplicationStart:
     - location: start_server.sh
       runas: root
-  environment:
-    variables:
-      - name: DB_NAME
-        value: "ssm:/DB/NAME"
-      - name: DB_USERNAME
-        value: "ssm:/DB/USERNAME"
-      - name: DB_PASSWORD
-        value: "ssm:/DB/PASSWORD"
