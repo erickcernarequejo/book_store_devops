@@ -1,0 +1,33 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DB_NAME: "/DB/NAME"
+    DB_USERNAME: "/DB/USERNAME"
+    DB_PASSWORD: "/DB/PASSWORD"
+    IMAGE_REPO_NAME: "/IMAGE/REPO/NAME"
+    IMAGE_TAG: "/IMAGE/TAG"
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21  # Establece la versión de Java a utilizar
+    commands:
+      - echo "Installing dependencies..."
+      - yum install -y maven
+  pre_build:
+    commands:
+      - echo "Compiling the project..."
+      - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
+  build:
+    commands:
+      - echo "Running tests..."
+      - mvn install
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:$IMAGE_TAG
+      - echo `docker image ls`
+  post_build:
+    commands:
+      - echo Build completed on `date`

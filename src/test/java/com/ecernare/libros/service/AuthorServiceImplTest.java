@@ -5,6 +5,7 @@ import com.ecernare.libros.domain.Book;
 import com.ecernare.libros.dto.AuthorDTO;
 import com.ecernare.libros.dto.BookDTO;
 import com.ecernare.libros.mapper.IAuthorMapper;
+import com.ecernare.libros.mapper.IBookMapper;
 import com.ecernare.libros.repository.IAuthorRepository;
 import com.ecernare.libros.service.impl.AuthorServiceImpl;
 import org.junit.Before;
@@ -29,11 +30,14 @@ public class AuthorServiceImplTest {
     @MockBean
     private IAuthorMapper authorMapper;
 
+    @MockBean
+    private IBookMapper bookMapper;
+
     private AuthorServiceImpl authorService;
 
     @Before
     public void setup() {
-        authorService = new AuthorServiceImpl(authorRepository, authorMapper);
+        authorService = new AuthorServiceImpl(authorRepository, authorMapper, bookMapper);
     }
 
     @Test
@@ -47,10 +51,10 @@ public class AuthorServiceImplTest {
         when(authorMapper.authorToAuthorDTO(author)).thenReturn(authorDTO);
 
         // WHEN
-        Optional<AuthorDTO> optionalAuthorDTO = authorService.getAuthorById(1L);
+        AuthorDTO optionalAuthorDTO = authorService.getAuthorById(1L);
 
         // THEN
-        assertTrue(authorDTO == optionalAuthorDTO.get());
+        assertTrue(authorDTO == optionalAuthorDTO);
 
         verify(authorRepository).findById(id);
         verify(authorMapper).authorToAuthorDTO(author);
