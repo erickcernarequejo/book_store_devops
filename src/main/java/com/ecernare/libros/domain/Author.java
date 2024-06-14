@@ -28,7 +28,7 @@ public class Author implements Serializable {
 
     private String genre;
 
-    private int age;
+    private Integer age;
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author", orphanRemoval = true)
@@ -49,7 +49,6 @@ public class Author implements Serializable {
 
         while (iterator.hasNext()) {
             Book book = iterator.next();
-
             book.setAuthor(null);
             iterator.remove();
         }

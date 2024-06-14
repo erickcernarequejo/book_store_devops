@@ -2,7 +2,11 @@ package com.ecernare.libros.service.impl;
 
 import com.ecernare.libros.domain.Author;
 import com.ecernare.libros.dto.AuthorDTO;
+import com.ecernare.libros.dto.BookDTO;
+import com.ecernare.libros.exception.ModelExistsException;
+import com.ecernare.libros.exception.ModelNotFoundException;
 import com.ecernare.libros.mapper.IAuthorMapper;
+import com.ecernare.libros.mapper.IBookMapper;
 import com.ecernare.libros.repository.IAuthorRepository;
 import com.ecernare.libros.service.IAuthorService;
 import lombok.AllArgsConstructor;
@@ -19,73 +23,93 @@ import java.util.Optional;
 @Log4j2
 public class AuthorServiceImpl implements IAuthorService {
 
-    private static final String MESSAGE_AUTHOR_CODE_NULL = "Author id must not be null!";
+    public static final String MESSAGE_AUTHOR_NOT_FOUND = "Author id \"%s\" not found";
+    public static final String MESSAGE_AUTHOR_EXISTS = "Author id \"%s\" exists";
 
     private final IAuthorRepository authorRepository;
     private final IAuthorMapper authorMapper;
+    private final IBookMapper bookMapper;
 
     @Override
-    public Optional<AuthorDTO> getAuthorById(Long id) {
-        log.debug("Entrada en getAuthorById {}", id);
+    public AuthorDTO getAuthorById(Long id) {
+        log.debug("Start of the method getAuthorById {}", id);
         Optional<Author> authorOptional = authorRepository.findById(id);
         if (authorOptional.isEmpty()) {
-            return Optional.empty();
+            throw new ModelNotFoundException(String.format(MESSAGE_AUTHOR_NOT_FOUND, id));
         } else {
-            return Optional.ofNullable(authorMapper.authorToAuthorDTO(authorOptional.get()));
+            return authorMapper.authorToAuthorDTO(authorOptional.get());
         }
     }
 
     @Override
     public List<AuthorDTO> getAuthors() {
+        log.debug("Start of the method getAuthors");
         return authorMapper.authorToAuthorDTOList(authorRepository.findAll());
     }
 
     @Transactional
     @Override
     public AuthorDTO insert(AuthorDTO authorDTO) {
+        log.debug("Start of the method insert");
         Author author = authorMapper.authorDTOToAuthor(authorDTO);
         Long id = author.getId();
 
-        log.debug("Entrada en insert {}", id);
-
-        if (id != null) {
-            if (authorRepository.existsById(id)) {
-                return null;
-            } else {
-                return authorMapper.authorToAuthorDTO(authorRepository.save(author));
-            }
+        if (id != null && authorRepository.existsById(id)) {
+            throw new ModelExistsException(String.format(MESSAGE_AUTHOR_EXISTS, id));
         } else {
-            return authorMapper.authorToAuthorDTO(authorRepository.save(author));
+            Author attachedAuthor = authorRepository.save(author);
+            return authorMapper.authorToAuthorDTO(attachedAuthor);
+        }
+
+    }
+
+    @Transactional
+    @Override
+    public Optional<AuthorDTO> insertNewBook(Long id, List<BookDTO> booksDTO) {
+        log.debug("Start of the method insertNewBook with author id: {}", id);
+        Optional<Author> authorOptional = authorRepository.findById(id);
+
+        if (authorOptional.isEmpty()) {
+            throw new ModelNotFoundException(String.format(MESSAGE_AUTHOR_NOT_FOUND, id));
+        } else {
+            for (BookDTO bookDTO : booksDTO) {
+                authorOptional.get().addBook(bookMapper.bookDTOToBook(bookDTO));
+            }
+            Author attachedAuthor = authorRepository.save(authorOptional.get());
+            return Optional.ofNullable(authorMapper.authorToAuthorDTO(attachedAuthor));
         }
 
     }
 
     @Override
     public Optional<AuthorDTO> update(AuthorDTO authorDTO) {
-        Author author = authorMapper.authorDTOToAuthor(authorDTO);
-        Long id = author.getId();
+        log.debug("Start of the method update with author id: {}", authorDTO.getId());
+        Long id = authorDTO.getId();
 
-        log.debug("Entrada en update {}", id);
-
-        Assert.notNull(id, MESSAGE_AUTHOR_CODE_NULL);
+        Assert.notNull(id, MESSAGE_AUTHOR_NOT_FOUND);
 
         Optional<Author> authorOptional = authorRepository.findById(id);
 
         if (authorOptional.isEmpty()) {
-            return Optional.empty();
+            throw new ModelNotFoundException(String.format(MESSAGE_AUTHOR_NOT_FOUND, id));
         } else {
-            Author attachedAuthor = authorRepository.save(author);
+            authorMapper.updateAuthorFromAuthorDTO(authorDTO, authorOptional.get());
+            Author attachedAuthor = authorRepository.save(authorOptional.get());
             return Optional.ofNullable(authorMapper.authorToAuthorDTO(attachedAuthor));
         }
     }
 
     @Override
     public void delete(long id) {
-        log.debug("Entrada en delete {}", id);
+        log.debug("Start of the method delete with author id: {}", id);
 
-        Assert.notNull(id, MESSAGE_AUTHOR_CODE_NULL);
+        Assert.notNull(id, MESSAGE_AUTHOR_NOT_FOUND);
 
         Optional<Author> authorOptional = authorRepository.findById(id);
+
+        if (authorOptional.isEmpty()) {
+            throw new ModelNotFoundException(String.format(MESSAGE_AUTHOR_NOT_FOUND, id));
+        }
 
         authorRepository.deleteById(authorOptional.get().getId());
     }

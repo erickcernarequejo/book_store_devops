@@ -22,6 +22,7 @@ public interface IAuthorMapper {
 
     List<Author> authorDTOToAuthorList(List<AuthorDTO> author);
 
+    @Mapping(source = "booksDTO", target = "books")
     void updateAuthorFromAuthorDTO(AuthorDTO authorDTO, @MappingTarget Author author);
 
     BookDTO bookToBookDTO(Book book);
