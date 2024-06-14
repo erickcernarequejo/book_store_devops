@@ -9,6 +9,7 @@ env:
     IMAGE_TAG: "/IMAGE/TAG"
     DOCKERHUB_USERNAME: "/DOCKERHUB/USERNAME"
     DOCKERHUB_PASSWORD: "/DOCKERHUB/PASSWORD"
+    REGISTRY_URL: "/REGISTRY/URL"
 
 phases:
   install:
@@ -21,7 +22,7 @@ phases:
     commands:
       - echo "Compiling the project..."
       - mvn compile  # Compila el proyecto antes de ejecutar las pruebas
-      - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+      - echo "$DOCKERHUB_PASSWORD" | docker login $REGISTRY_URL -u $DOCKERHUB_USERNAME --password-stdin
   build:
     commands:
       - echo "Running tests..."
