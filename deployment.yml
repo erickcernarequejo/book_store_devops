@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-store
+  labels:
+    app: book-store
+spec:
+  replicas: 3  # Puedes ajustar el número de réplicas según tu necesidad
+  selector:
+    matchLabels:
+      app: book-store
+  template:
+    metadata:
+      labels:
+        app: book-store
+    spec:
+      containers:
+        - name: book-store
+          image: erickcernarequejo/libros
+          env:
+            - name: TZ
+              value: "America/Lima"
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: dbname
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: password
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-store-service
+spec:
+  selector:
+    app: book-store
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secrets
+type: Opaque
+data:
+  dbname: "Ym9va3N0b3JlX2Ri"
+  username: "c2E="
+  password: "YWJjMTIz"

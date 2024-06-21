@@ -9,14 +9,14 @@ permissions:
     pattern: "**"
     owner: ec2-user
     group: ec2-user
-
+    
 hooks:
   BeforeInstall:
-    - location: install_dependencies_eks.sh
+    - location: stop_server.sh
       runas: root
-  ApplicationStop:
-    - location: delete_pods.sh
+  AfterInstall:
+    - location: install_dependencies.sh
       runas: root
-  ValidateService:
-    - location: validate.sh
+  ApplicationStart:
+    - location: start_server.sh
       runas: root
