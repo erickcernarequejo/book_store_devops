@@ -14,8 +14,8 @@ hooks:
   BeforeInstall:
     - location: install_dependencies_eks.sh
       runas: root
-  ApplicationStop:
-    - location: delete_pods.sh
+  ApplicationStart:
+    - location: kube.sh
       runas: root
   ValidateService:
     - location: validate.sh

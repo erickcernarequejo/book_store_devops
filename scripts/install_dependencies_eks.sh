@@ -25,4 +25,4 @@ aws --version
 kubectl version --client
 eksctl version
 
-eksctl create cluster -f k8s-cluster.yaml
+eksctl create cluster -f k8s-cluster.yml
