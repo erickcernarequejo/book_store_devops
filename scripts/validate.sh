@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#Set up credentials for AWS EKS
+aws eks --region us-east-1 update-kubeconfig --name k8s-cluster
+
+# Wait 30 seconds for the pods to rise
+echo "Waiting 30 seconds for pods to rise......"
+sleep 30
+
 # Check if pods are running
 kubectl get pods -l app=book-store
 
