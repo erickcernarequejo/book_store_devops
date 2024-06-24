@@ -9,6 +9,7 @@ if [[ $eks_check == *"ResourceNotFoundException"* ]]; then
     eksctl create cluster -f k8s-cluster.yml
 else
     echo "El clúster ya existe."
+    eksctl create nodegroup -f k8s-cluster.yml
 fi
 
 kubectl apply -f deployment.yml
